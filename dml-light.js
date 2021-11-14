@@ -1,4 +1,3 @@
-
 /* ----------------------------------------------------------------------------
     global variables
    ---------------------------------------------------------------------------- */
@@ -6,122 +5,8 @@
    var _base // Global element stores current insert position. If empty, elements are added at the end of document.
    var _baseStack = [] // Stack for storing _base positions
    var _block = false // global var for blocking loaders
-   var _onresizeElements = [] // global list for onresize handlers
    
-   /* ----------------------------------------------------------------------------
-      constants
-      ---------------------------------------------------------------------------- */
    
-   const svgref = "http://www.w3.org/2000/svg";
-   const PI2 = 2 * Math.PI
-   const _style = "style"
-   const _bold = "font-weight: bold;"
-   const _italic = "font-style: italic;"
-   const _fs = "font-size: "
-   const _bigtext = "font-size: 130%;"
-   const _bg = "background-color: "
-   const _bgred = "background-color: red;"
-   const _bgred2 = "background-color: #f50;"
-   const _bgy = "background-color: #ffc;"
-   const _bggreen = "background-color: #695;"
-   const _bgblue = "background-color: blue;"
-   const _bgorange = "background-color: #fc0;"
-   const _bgsilver = "background-color: silver;"
-   const _bgyellow = "background-color: #ffffee;"
-   const _bgwhite = "background-color: white;"
-   const _bgblack = "background-color: black;"
-   const _bgtrans = "background-color: rgba(0,0,0,0.05);"
-   const _bgwtrans = "background-color: rgba(255,255,255,0.5);"
-   const _red = "color: red;"
-   const _blue = "color: blue;"
-   const _navy = "color: navy;"
-   const _white = "color: white;"
-   const _yellow = "color: yellow;"
-   
-   const _center = "text-align: center;"
-   const _right = "text-align: right;"
-   const _top = "vertical-align: top;"
-   const _bottom = "vertical-align: bottom;"
-   const _middle = "vertical-align: middle;"
-   const _flexmiddle = "display: flex; align-items: center;"
-   const _blur = "filter: blur(2px);"
-   const _shadow = "box-shadow: 3px 3px 4px gray;"
-   const _bigshadow = "box-shadow: 6px 6px 8px gray;"
-   const _smallShadow = "box-shadow: 2px 2px 3px gray;"
-   const _txtShadow = "text-shadow: 5px 6px 4px  rgba(0,0,0,0.44);"
-   const _bigTxtShadow = "text-shadow: 8px 13px 5px  rgba(0,0,0,0.44);"
-   const _border = "border: thin solid silver;"
-   const _noborder = "border: 0px;"
-   const _radius = "border-radius: 8px;"
-   const _miniRadius = "border-radius: 5px;"
-   const _padding = "padding: 2px;"
-   const _tpadding = "padding: 1px 5px 1px 5px;"
-   const _bigPadding = "padding: 10px;"
-   const _smallMargin = "margin: 2px;"
-   const _margin = "margin: 5px;"
-   const _marginLeft = "margin-left: 5px;"
-   const _marginRight = "margin-right: 5px;"
-   const _bigMarginLeft = "margin-left: 10px;"
-   const _bigMarginRight = "margin-right: 10px;"
-   const _inShadow = "-webkit-box-shadow: inset 5px 5px 3px -2px rgba(0,0,0,0.64);" +
-     "-moz-box-shadow: inset 5px 5px 3px -2px rgba(0,0,0,0.64);" +
-     "box-shadow: inset 5px 5px 3px -2px rgba(0,0,0,0.64);"
-   // Combined styles 
-   const _box = _bgwhite + _border + _shadow
-   const _ybox = _border + _shadow + _bg + "#ffc;"
-   
-   // Flex Layout definitions: At leas 3 columns without header
-   const _bodyFlex = "display: flex; flex-flow: row nowrap; justify-content: space-between;"
-   const _sideFlex = "flex-shrink: 0.5;" // side will shrink less
-   const _columnFlex = "flex-grow: 0; display: flex;  flex-flow: row nowrap;"
-   const _flex = "display: flex;"
-   const _flexSpaceAround = "display: flex; justify-content: space-around;"
-   const _flexSpaceBetween = "display: flex; justify-content: space-around;"
-   // Use width: calc(100% - 200px); for expandable element
-   const _sticky = "position: -webkit-sticky; position: sticky; top: 0px;"
-   const _btnstyle = "width: 100px; height: 24px;" +
-     "  display: inline-flex; align-items: center;" +
-     " justify-content: center; margin: 8px;"
-   const _flybox = "position: fixed;" +
-     "padding: 6px;" +
-     "box-shadow: 5px 5px 6px silver;" +
-     "border-radius: 8px;" +
-     "background-color: #ffffff;" +
-     "border: thin solid gray;" +
-     "left: 50%;" +
-     "top: 50%;" +
-     "transform: translate(-50%, -50%);"
-
-   /*------------------------------------------------------
-
-   
-   /****************************************************************************************
-   
-       General Functions: 
-       selectBase: select new base point for object creation
-       popBase: restore previous base
-       create: create free Elemtent
-       appendBase: Add new element at base point
-       make:   appendBase(create(typ, attrib, c))
-         - typ: html-object type, e.g. "button"
-         - attrib: array of attributes {"key":"value",...}
-         - c: Text of object to appendBase, can be used for quick creation: make("div",{},"Hello world") => Div with content, c can be element
-   
-        
-   ****************************************************************************************/
-   
-   /*------------------------------------------------------
-     Select new base element for object creation 
-     returns the new base for further usage, e.g.
-     let myDiv = selectBase(div())
-   
-     saves old base with pushBase(), restore with popBase()
-     Check Stack mismatch:
-     let l = baseStackLength()
-     SelectBase(...)
-     ....
-     unselectBase(l)
-     ------------------------------------------------------*/
    function selectBase(ID) {
      // Save old base
      _baseStack.push(_base)
@@ -224,19 +109,7 @@
      } else return c
    }
    
-   function textNode(s) {
-     return document.createTextNode(s)
-   }
-   /* ----------------------------------------------------------------------------
-      Set JSON array as element attributes:
-      {"class":"test", "style":"color: red; display: none"}
-      If only a string is provided as attrib, it is assumed to be a style definition
-      so "color: red;" is converted to {"style":"color: red;"}
-      style strings are disassembled and set via style.setProperty() to prevent unwanted
-      overwrite of style attributes. 
-   
-      Style properties are always added, to remove use style.removeProperty()
-      ---------------------------------------------------------------------------- */
+ 
    function setAttributes(el, attrib) {
      if (typeof (attrib) == "string") // Check for string attribute          
        attrib = { "style": attrib } // Convert strings to {"style",attrib}
@@ -327,21 +200,7 @@
    function make(typ, attrib, c) {
      return appendBase(create(typ, attrib, c))
    }
-   
-
-
-   
-
-   /****************************************************************************************
-     DML shortcut function definitions
-   ****************************************************************************************/
-   
-   
-   /* ============================================================================
-      following functions use their name as argument: h1(text) creates  <h1> text </h1> 
-      return object reference let b = button("test")
-      ============================================================================ */
-   
+      
    function br(cnt) { let n = cnt || 1; let br; for (let i = 0; i < n; i++) br = make("br"); return br; } // br() or br(5) for one or multiple linebreaks
    function nbsp(n = 1) {
      let s = "";
@@ -380,12 +239,8 @@
    }
    // Create link
    function pre(s, attrib) { return make("pre", attrib, textNode(s)); } // Unformatted text
-   //function txt(s, attrib) { let d = make("pre", attrib, textNode(s)); d.style.display = "inline-block"; return d; }
-   
-   
-   /*------------------------------------------------------
-     Various DIV´s
-     ------------------------------------------------------*/
+
+ 
    function div(s, attrib) {
      return make("div", attrib, s)
    }
@@ -564,10 +419,7 @@
      }
    }
    
-   
-   
-   
-   
+  
    // ----------------------------------------------------------------------------
    // Create Checkbox with labgel s after CB, def is true/false
    // ----------------------------------------------------------------------------
@@ -744,3 +596,5 @@
      }
    }
    )
+   // --------------- Ende ul -------------
+   
