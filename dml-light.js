@@ -149,7 +149,7 @@
      setAttributes(ret, attrib)
      obj.appendChild(ret)
      return ret
-   }
+   } 
    
    
    // ----------------------------------------------------------------------------
