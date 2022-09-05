@@ -205,33 +205,18 @@
    function div(s, attrib) {
      return make("div", attrib, s)
    }
-   
-   function idiv(s, attrib) {
-     let d = make("div", attrib, s);
-     // if (d) if (d.style)
-     d.style.display = "inline-block";
-     return d;
-   }
-   const inlineDiv = idiv; // Alias
-   const inlinediv = idiv; // Alias
-   
-   // Create div and select as base 
-   function sdiv(s, attrib) {
-     return selectBase(div(s, attrib))
-   }
-   
-   // create idiv and select as base
-   function sidiv(s, attrib) {
-     return selectBase(idiv(s, attrib))
-   }
-   
 
-   
-   
-   /*------------------------------------------------------
-      Create a button
-     ------------------------------------------------------*/
-   function button(s, attrib) {
-     return make("button", attrib, s)
-   }
+   // GIST from Jonathan cf Dev To
+   const _html = (range => {
+     range.selectNodeContents(range.createContextualFragment('<template>').lastChild)
+     return range.createContextualFragment.bind(range)
+    })(new Range())
+
+
+    const html = function (range) {
+      let elt = div(_html(range))
+      appendBase(elt)
+      return elt
+    }
+
 
