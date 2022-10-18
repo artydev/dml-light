@@ -2,6 +2,5 @@
 
 This library serves as based for MVU.js  
 
-- Modify html : return node element
-- Add m function
-- Add dom, udom functions
+DML-LIGHT starts as an extract from the excellent library [DML](https://github.com/efpage/DML).
+I simply wanted something lighter.
