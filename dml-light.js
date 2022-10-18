@@ -227,6 +227,11 @@ const html = (range) =>  {
     return appendBase(node.firstChild);
 }
 
-const dom = selectBase;
+const dom = (el) =>  {
+    if (typeof(el) == "function") {
+        return selectBase(el()) 
+    }
+    return selectBase(el) 
+};
 
-const udom = unselectBase;
+const udom = () => unselectBase();

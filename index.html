@@ -8,26 +8,11 @@
 </head>
 <body>
     <script src="./dml-light.js"></script>
-    <div id="app" style="background:rgb(5, 67, 121); color:rgb(113, 236, 230)">
+    <div id="t"></div>
+    <div id="app" style="background:rgb(5, 67, 121); color:rgb(113, 236, 230);padding:10px">
     </div>
-    <hr />
     <div id="app2" style="background:red">
     </div>
-    <script>
-        const div = m("div");
-        const button = m("button")
-        dom(app)
-            let titre = html("<h1>Hello from DML-LIGHT</h1>")
-            let btn = button("I m in div(app1)")           
-            titre.onclick = () => alert("Hello from H1")
-            btn.onclick = () => alert("Hello from Button")
-
-        dom("app2")
-            div("Hy App2")
-            let btn2 = button("I m in div(app1)")           
-            titre.onclick = () => alert("Hello from H1")
-            btn2.onclick = () => alert("Hello from App2")
-        udom(2)
-    </script>
+    <script type="module" src="./index.js"></script>
 </body>
 </html>
