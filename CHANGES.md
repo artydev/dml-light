@@ -1,4 +1,5 @@
 ```js
+
 const dom = (el) =>  {
     if (typeof(el) == "function") {
         return selectBase(el()) 
@@ -7,4 +8,5 @@ const dom = (el) =>  {
 };
 
 const udom = () => unselectBase();
+
 ```
