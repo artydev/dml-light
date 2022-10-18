@@ -206,9 +206,6 @@ function make(typ, attrib, c) {
     return appendBase(create(typ, attrib, c))
 }
 
-function div(s, attrib) {
-    return make("div", attrib, s)
-}
 
 function wrap(name, ...children) {
     const element = create(name);
@@ -216,9 +213,20 @@ function wrap(name, ...children) {
     return element;
 }
 
+const m = (tag) => (content, attribs) => make(tag, attribs, content);
 
-// GIST from Jonathan cf Dev To
-const html = (range => {
-    range.selectNodeContents(range.createContextualFragment('<template>').lastChild)
-    return range.createContextualFragment.bind(range)
-})(new Range())
+
+const _html = (range => {
+	// @ts-ignore
+	range.selectNodeContents(range.createContextualFragment('<template>').lastChild)
+	return range.createContextualFragment.bind(range)
+})(new Range());
+
+const html = (range) =>  {
+    let node =   _html(range)
+    return appendBase(node.firstChild);
+}
+
+const dom = selectBase;
+
+const udom = unselectBase;
